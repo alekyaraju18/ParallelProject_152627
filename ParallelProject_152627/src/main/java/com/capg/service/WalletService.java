@@ -1,38 +1,43 @@
 package com.capg.service;
 
-import com.capg.bean.CustomerDetails;
+import com.capg.bean.AccountDetails;
+import com.capg.dao.WalletDao;
 
-public class WalletService implements IWalletService{
+public class WalletService implements IWalletService {
 
-	public boolean createAccount(CustomerDetails details) {
-		// TODO Auto-generated method stub
-		return false;
+	WalletDao dao = new WalletDao();
+
+	public boolean createAccount(AccountDetails details) {
+
+		return dao.createAccount(details);
 	}
 
-	public boolean login(CustomerDetails details) {
-		// TODO Auto-generated method stub
-		return false;
+	public AccountDetails showBalance(AccountDetails details) {
+
+		return dao.showBalance(details);
 	}
 
-	public boolean deposit() {
-		// TODO Auto-generated method stub
-		return false;
+	public AccountDetails depositBalance(double deposit, AccountDetails details) {
+
+		return dao.depositBalance(deposit, details);
+
 	}
 
-	public boolean withdraw() {
-		// TODO Auto-generated method stub
-		return false;
+	public AccountDetails withdrawBalance(double withdraw, AccountDetails details) {
+
+		return dao.withdrawBalance(withdraw, details);
 	}
 
-	public void showBalance() {
-		// TODO Auto-generated method stub
-		
+	public AccountDetails transferFund(long bankaccount2, double amount, AccountDetails details) {
+
+		return dao.transferFund(bankaccount2, amount, details);
+
 	}
 
-	public void printTransactions() {
-		// TODO Auto-generated method stub
-		
+	public AccountDetails printTransaction() {
+
+		return dao.printTransaction();
+
 	}
 
-	
 }

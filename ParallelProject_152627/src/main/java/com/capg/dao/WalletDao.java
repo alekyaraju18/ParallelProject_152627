@@ -1,38 +1,79 @@
 package com.capg.dao;
 
-import com.capg.bean.CustomerDetails;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
-public class WalletDao implements IWalletDao
-{
+import com.capg.bean.AccountDetails;
 
-	public boolean createAccount(CustomerDetails details) {
-		// TODO Auto-generated method stub
-		return false;
+public class WalletDao implements IWalletDao {
+	public static List<AccountDetails> accountInfo = new ArrayList<AccountDetails>();
+	List<String> list=new ArrayList<String>();
+	AccountDetails details = new AccountDetails();
+
+	public boolean createAccount(AccountDetails account) {
+		return accountInfo.add(account);
 	}
 
-	public boolean login(CustomerDetails details) {
-		// TODO Auto-generated method stub
-		return false;
+	public AccountDetails showBalance(AccountDetails account) {
+		return account;
 	}
 
-	public boolean deposit() {
-		// TODO Auto-generated method stub
-		return false;
+	public AccountDetails depositBalance(double deposit, AccountDetails account) {
+
+		account.setBalance(account.getBalance() + deposit);
+		list.add("Amount deposit is:"+deposit);
+		return account;
 	}
 
-	public boolean withdraw() {
-		// TODO Auto-generated method stub
-		return false;
+	public AccountDetails withdrawBalance(double withdraw, AccountDetails account) {
+
+		double remainder = account.getBalance() - withdraw;
+		list.add("Amount withdrawn is:"+withdraw);
+		if (remainder >= 0) {
+			account.setBalance(remainder);
+			return account;
+
+		}
+		return null;
 	}
 
-	public void showBalance() {
-		// TODO Auto-generated method stub
-		
+	public static List<AccountDetails> getList() {
+		return accountInfo;
 	}
 
-	public void printTransactions() {
-		// TODO Auto-generated method stub
-		
+	public AccountDetails transferFund(long bankaccount2, double amount, AccountDetails account) {
+
+		double userOneBalance = account.getBalance();
+		list.add("Amount transfered is:"+amount);
+		for (AccountDetails obj : accountInfo) {
+
+			if (account.getBankAccount() == bankaccount2) {
+				System.err.println("Cannot transfer funds to yourself!");
+				break;
+			}
+
+			if (obj.getBankAccount() == (bankaccount2)) {
+				if (userOneBalance >= amount) {
+
+					obj.setBalance(obj.getBalance() + amount);
+					account.setBalance(userOneBalance - amount);
+					account.setAmount(amount);
+					return obj;
+				}
+
+				else {
+					System.err.println("Insufficient funds!");
+				}
+			}
+		}
+		return null;
 	}
 
+	public AccountDetails printTransaction()
+	{
+		System.out.println(list);
+		return null;	
+
+	}
 }
