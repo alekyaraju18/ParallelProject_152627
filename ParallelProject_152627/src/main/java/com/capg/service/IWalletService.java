@@ -1,20 +1,25 @@
 package com.capg.service;
 
+import java.util.List;
+
 import com.capg.bean.AccountDetails;
 
 public interface IWalletService {
 	
-	public boolean createAccount(AccountDetails account);
-
-	public AccountDetails showBalance(AccountDetails account);
-
-	public AccountDetails depositBalance(double deposit, AccountDetails account);
-
-	public AccountDetails withdrawBalance(double withdraw,AccountDetails account);
+public int createAccount(AccountDetails details);
 	
-	public AccountDetails transferFund(long bankaccount2, double amount, AccountDetails account);
+	public boolean login(AccountDetails details);
 	
-	public AccountDetails printTransaction();
+	public double showBalance();
+	
+	public int deposit(double amount);
+	
+	public int withdraw(double amount);
+	
+	public int fundTransfer(long toAccNo,double amount);
+	
+	public List<String> printTransaction();
+	
 
 
 

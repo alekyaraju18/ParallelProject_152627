@@ -1,21 +1,25 @@
 package com.capg.dao;
 
+import java.util.List;
+
 import com.capg.bean.AccountDetails;
 
 public interface IWalletDao {
 	
-		public boolean createAccount(AccountDetails account);
-
-		public AccountDetails showBalance(AccountDetails account);
-
-		public AccountDetails depositBalance(double deposit, AccountDetails account);
-
-		public AccountDetails withdrawBalance(double withdraw,AccountDetails account);
+public int createAccount(AccountDetails details);
+	
+	public boolean login(AccountDetails details);
+	
+	public double showBalance();
+	
+	public int deposit(double amount);
+	
+	public int withdraw(double amount);
+	
+	public int fundTransfer(long toAccNo,double amount);
+	
+	public List<String> printTransaction();
 		
-		public AccountDetails transferFund(long bankaccount2, double amount, AccountDetails account);
-		
-		public AccountDetails printTransaction();
-
 	
 }
 

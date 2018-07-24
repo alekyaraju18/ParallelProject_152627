@@ -15,19 +15,6 @@ public class CustomerDetailsValidate {
 		Male, Female, M, F
 	}
 
-	public AccountDetails validateLogIn(String username, String password) {
-
-		List<AccountDetails> list = WalletDao.getList();
-
-		for (AccountDetails details : list) {
-			if (details.getUserName().equalsIgnoreCase(username) && details.getPassword().equals(password)) {
-
-				return details;
-			}
-		}
-		return null;
-	}
-
 	public boolean validateName(String name) {
 		String name_pattern = "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$";
 		this.pattern = Pattern.compile(name_pattern);
@@ -36,7 +23,7 @@ public class CustomerDetailsValidate {
 
 	}
 
-	public boolean validateUserName(String a) {
+	public boolean validateUsername(String a) {
 		String username_pattern = "^[a-zA-Z0-9._-]{3,25}$";
 		this.pattern = Pattern.compile(username_pattern);
 		matcher = pattern.matcher(a);

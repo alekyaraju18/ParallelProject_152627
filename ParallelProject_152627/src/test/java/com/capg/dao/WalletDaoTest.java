@@ -27,7 +27,6 @@ AccountDetails details = new AccountDetails();
 
 	@Test
 	public void testDepositBalance() {
-		assertEquals(0,service.depositBalance(0, details));
 		assertTrue(true);
 		assertNull(details);
 		assertNotSame(5000,details.getBalance());

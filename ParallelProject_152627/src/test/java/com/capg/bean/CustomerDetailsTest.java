@@ -23,7 +23,6 @@ public class CustomerDetailsTest extends TestCase {
 		assertFalse("gfdfg".equals(cust.getName()));
 	}
 
-	
 	@Test
 	public void testGetPhoneNo() {
 		cust.setPhoneNo("9876543210");
@@ -50,7 +49,7 @@ public class CustomerDetailsTest extends TestCase {
 		assertEquals(18, 18);
 		assertEquals(18, cust.getAge());
 		assertNotSame(0, cust.getAge());
-		assertNotSame(21,cust.getAge());
+		assertNotSame(21, cust.getAge());
 
 	}
 
@@ -60,9 +59,8 @@ public class CustomerDetailsTest extends TestCase {
 		assertEquals("Female", cust.getGender());
 		assertTrue("Female".equals(cust.getGender()));
 		assertTrue("female".equalsIgnoreCase(cust.getGender()));
-	   assertFalse("male".equalsIgnoreCase(cust.getGender()));
-	   assertFalse("male".equalsIgnoreCase(cust.getGender()));
-	 
+		assertFalse("male".equalsIgnoreCase(cust.getGender()));
+		assertFalse("male".equalsIgnoreCase(cust.getGender()));
 
 	}
 

@@ -25,12 +25,12 @@ public class CustomerDetailsValidateTest {
 	}
 
 	@Test
-	public void testValidateUserName() {
-		assertEquals(true,validation.validateUserName("Anant_96"));
-		assertEquals(true,validation.validateUserName("Anant77796"));
-		assertEquals(true,validation.validateUserName("AnantKumar777"));
-		assertEquals(false,validation.validateUserName(")((858"));
-		assertEquals(false,validation.validateUserName("   "));
+	public void testValidateUsername() {
+		assertEquals(true,validation.validateUsername("Anant_96"));
+		assertEquals(true,validation.validateUsername("Anant77796"));
+		assertEquals(true,validation.validateUsername("AnantKumar777"));
+		assertEquals(false,validation.validateUsername(")((858"));
+		assertEquals(false,validation.validateUsername("   "));
 	}
 
 	@Test

@@ -7,73 +7,125 @@ import java.util.List;
 import com.capg.bean.AccountDetails;
 
 public class WalletDao implements IWalletDao {
-	public static List<AccountDetails> accountInfo = new ArrayList<AccountDetails>();
-	List<String> list=new ArrayList<String>();
-	AccountDetails details = new AccountDetails();
 
-	public boolean createAccount(AccountDetails account) {
-		return accountInfo.add(account);
+	long transId;
+	static AccountDetails acc = new AccountDetails();
+	static List<AccountDetails> list = new ArrayList<AccountDetails>();
+
+	public int createAccount(AccountDetails details) {
+		if (list.add(details)) {
+			acc = details;
+			return 1;
+		} else
+			return 0;
 	}
 
-	public AccountDetails showBalance(AccountDetails account) {
-		return account;
+	public boolean login(AccountDetails details) {
+
+		Iterator<AccountDetails> iterator = list.iterator();
+		while (iterator.hasNext()) {
+			AccountDetails det = iterator.next();
+			if (details.getUsername().equals(det.getUsername()) && details.getPassword().equals(det.getPassword())) {
+				acc = det;
+				return true;
+			}
+		}
+		return false;
 	}
 
-	public AccountDetails depositBalance(double deposit, AccountDetails account) {
+	public double showBalance() {
 
-		account.setBalance(account.getBalance() + deposit);
-		list.add("Amount deposit is:"+deposit);
-		return account;
+		Iterator<AccountDetails> iterator = list.iterator();
+		while (iterator.hasNext()) {
+			AccountDetails det = iterator.next();
+			if (acc.getUsername().equals(det.getUsername())) {
+				double balance = det.getBalance();
+				return balance;
+			}
+		}
+		return -1;
 	}
 
-	public AccountDetails withdrawBalance(double withdraw, AccountDetails account) {
+	public int deposit(double amount) {
 
-		double remainder = account.getBalance() - withdraw;
-		list.add("Amount withdrawn is:"+withdraw);
-		if (remainder >= 0) {
-			account.setBalance(remainder);
-			return account;
+		Iterator<AccountDetails> iterator = list.iterator();
+		while (iterator.hasNext()) {
+			AccountDetails det = iterator.next();
+			if (acc.getUsername().equals(det.getUsername())) {
+				det.setBalance(det.getBalance() + amount);
+				transId = (long) (Math.random() * 12345 + 678);
+				String s = Long.toString(transId) + ":\tDeposited " + Double.toString(amount) + " to "
+						+ Long.toString(det.getAccNo()) + " Balance: " + det.getBalance();
+				det.getTransId().add(s);
+				return 1;
+			}
+		}
+		return 0;
+	}
 
+	public int withdraw(double amount) {
+
+		if (acc.getBalance() > amount) {
+			Iterator<AccountDetails> iterator = list.iterator();
+			while (iterator.hasNext()) {
+				AccountDetails det = iterator.next();
+				if (acc.getUsername().equals(det.getUsername())) {
+					det.setBalance(det.getBalance() - amount);
+					transId = (long) (Math.random() * 10000 + 999);
+					String s = Long.toString(transId) + ":\tWithdrew " + Double.toString(amount) + " from "
+							+ Long.toString(det.getAccNo()) + " Balance: " + det.getBalance();
+					det.getTransId().add(s);
+					return 1;
+				}
+
+			}
+		}
+		return 0;
+	}
+
+	public int fundTransfer(long toAccNo, double amount) {
+
+		Iterator<AccountDetails> iterator = list.iterator();
+		Iterator<AccountDetails> iterator1 = list.iterator();
+		while (iterator.hasNext()) {
+
+			AccountDetails det = iterator.next();
+			if (acc.getUsername().equals(det.getUsername())) {
+
+				transId = (long) (Math.random() * 12345 + 234);
+				det.setBalance(det.getBalance() - amount);
+
+				while (iterator1.hasNext()) {
+
+					AccountDetails itDetails1 = iterator1.next();
+					if (itDetails1.getAccNo() == toAccNo) {
+
+						itDetails1.setBalance(itDetails1.getBalance() + amount);
+						String s1 = Long.toString(transId) + "Recieved :" + Double.toString(amount) + " from "
+								+ Long.toString(det.getAccNo()) + "\t Balance :" + itDetails1.getBalance();
+						itDetails1.getTransId().add(s1);
+					}
+				}
+				String s = Long.toString(transId) + ":\tTransfered " + Double.toString(amount) + " to "
+						+ Long.toString(toAccNo) + " from " + Long.toString(det.getAccNo()) + " Balance :"
+						+ det.getBalance();
+				det.getTransId().add(s);
+				return 1;
+			}
+		}
+		return 0;
+	}
+
+	public List<String> printTransaction() {
+
+		Iterator<AccountDetails> iterator = list.iterator();
+		while (iterator.hasNext()) {
+			AccountDetails det = iterator.next();
+			if (acc.getUsername().equals(det.getUsername())) {
+				return det.getTransId();
+			}
 		}
 		return null;
 	}
 
-	public static List<AccountDetails> getList() {
-		return accountInfo;
-	}
-
-	public AccountDetails transferFund(long bankaccount2, double amount, AccountDetails account) {
-
-		double userOneBalance = account.getBalance();
-		list.add("Amount transfered is:"+amount);
-		for (AccountDetails obj : accountInfo) {
-
-			if (account.getBankAccount() == bankaccount2) {
-				System.err.println("Cannot transfer funds to yourself!");
-				break;
-			}
-
-			if (obj.getBankAccount() == (bankaccount2)) {
-				if (userOneBalance >= amount) {
-
-					obj.setBalance(obj.getBalance() + amount);
-					account.setBalance(userOneBalance - amount);
-					account.setAmount(amount);
-					return obj;
-				}
-
-				else {
-					System.err.println("Insufficient funds!");
-				}
-			}
-		}
-		return null;
-	}
-
-	public AccountDetails printTransaction()
-	{
-		System.out.println(list);
-		return null;	
-
-	}
 }
